@@ -8,7 +8,7 @@ public class PdfReader {
     public static void main(String[] args) {
         try {
             // Load PDF file from local path
-            File pdfFile = new File("C:/Users/MY PC/Downloads/IT_Assests[1].pdf");
+            File pdfFile = new File("path_to_your_pdf"); //for example: C:/Users/MY PC/Downloads/mypdf.pdf
             PDDocument document = PDDocument.load(pdfFile);
             PDFTextStripper pdfTextStripper=new PDFTextStripper();
             String pdftextdata=pdfTextStripper.getText(document);
