@@ -25,9 +25,7 @@ The following files are not crucial to the core functionality:
 The `PdfReader.java` file is a **testing utility** that demonstrates how text extraction is performed from a PDF. It directly uses the **Apache PDFBox API** to extract text from any PDF file.  
 
 
-Here's an updated `README.md` with all the required code commands used during your Java Backend API development.  
 
----
 
 # JAVA PdfReader API  
 
