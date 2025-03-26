@@ -26,31 +26,6 @@ The `PdfReader.java` file is a **testing utility** that demonstrates how text ex
 
 
 
-
-# JAVA PdfReader API  
-
-## 📌 Switch to Master Branch  
-**Note:** Please switch to the `master` branch to access all the documentation and source files.  
-
-## 📂 Project Structure  
-
-### 🔹 Important Files  
-The main source files of this project are located in the source folder and include:  
-- `pdfController.java` – Handles API requests.  
-- `pdfService.java` – Implements business logic for PDF text extraction.  
-- `pdfParserUtil.java` – Utility class for parsing PDFs.  
-- `application.properties` – Configuration settings.  
-
-### ❌ Files You Can Exclude  
-The following files are not crucial to the core functionality:  
-- `ApiReaderNewApplicationTests.java`  
-- `Main.java`  
-
-## 🧪 PdfReader.java (Testing Purpose)  
-The `PdfReader.java` file is a **testing utility** that demonstrates how text extraction is performed from a PDF. It directly uses the **Apache PDFBox API** to extract text from any PDF file.  
-
----
-
 ## 🚀 Getting Started  
 
 ### **1️⃣ Clone the Repository**  
