@@ -131,25 +131,6 @@ public class PdfController {
 
 
 
-    @PostMapping(value = "/test-upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Map<String, String>> testUpload(@RequestPart("file") MultipartFile file) {
-        System.out.println("✅ Request reached testUpload method!");
-        System.out.println("✅ Received file: " + file.getOriginalFilename());
-        System.out.println("✅ Content Type: " + file.getContentType());
-
-        Map<String, String> response = new HashMap<>();
-        response.put("message", "File received successfully");
-        return ResponseEntity.ok(response);
-    }
-
-
-
-
-
-
-
-    /// ///////////////////////////////
-    ///
 
 //    public class PdfController {
 
@@ -246,7 +227,7 @@ public class PdfController {
 //    public ResponseEntity<String> testEndpoint() { //because it has no parameters, it is working fine
 //        System.out.println("✅ Request reached /test endpoint!");
 //        return ResponseEntity.ok("Test Successful");
-//    }
+//    }method for testing only
 
 
 
