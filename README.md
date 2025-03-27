@@ -1,8 +1,5 @@
 # JAVA PdfReader API using LLM interaction
 
-## 📌 Switch to Master Branch  
-**Note:** Please switch to the `master` branch to access all the documentation and source files.  
-
 ## 📂 Project Structure  
 
 ### 🔹 Important Files  
