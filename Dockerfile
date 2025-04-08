@@ -1,14 +1,10 @@
-# Use OpenJDK base image
-FROM openjdk:17-jdk-slim
-
-# Set the working directory inside the container
+FROM maven:3.9.9-openjdk-17 AS build
 WORKDIR /app
+COPY . .
+RUN mvn clean package -DskipTests
 
-# Copy the built jar file into the container
-COPY target/Api_Reader_New-0.0.1-SNAPSHOT.jar app.jar
-
-# Expose the same port as defined in application.properties
-EXPOSE 8081
-
-# Run the jar file
+FROM openjdk:17
+WORKDIR /app
+COPY --from=build /app/target/Api_Reader_New-0.0.1-SNAPSHOT.jar app.jar
 ENTRYPOINT ["java", "-jar", "app.jar"]
+
