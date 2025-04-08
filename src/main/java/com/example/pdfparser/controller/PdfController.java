@@ -1,42 +1,82 @@
 package com.example.pdfparser.controller;
 
 import com.example.pdfparser.service.PdfService;
-import com.example.pdfparser.util.PdfParserUtil;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.text.PDFTextStripper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
 public class PdfController {
 
+    private final PdfService pdfService;
+
     @Autowired
-    private  PdfService pdfService;
     public PdfController(PdfService pdfService) {
         this.pdfService = pdfService;
     }
-    @PostMapping(value = "/parse-pdf", consumes = "multipart/form-data")
 
+    @PostMapping("/parse-pdf")
     public ResponseEntity<Map<String, String>> parsePdf(@RequestParam("file") MultipartFile file) {
         try {
-            String extractedText = PdfParserUtil.extractText(file);
+            String extractedText = pdfService.extractTextFromPdf(file);
             Map<String, String> extractedData = pdfService.extractDetailsFromText(extractedText);
             return ResponseEntity.ok(extractedData);
         } catch (IOException e) {
-            return ResponseEntity.status(500).body(Map.of("error", "Failed to process PDF"));
+            return ResponseEntity.internalServerError().body(Map.of("error", "Failed to process PDF"));
         }
     }
+}
+
+
+
+
+
+
+
+//package com.example.pdfparser.controller;
+//
+//import com.example.pdfparser.service.PdfService;
+//import com.example.pdfparser.util.PdfParserUtil;
+//import org.apache.pdfbox.pdmodel.PDDocument;
+//import org.apache.pdfbox.text.PDFTextStripper;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.http.HttpStatus;
+//import org.springframework.http.MediaType;
+//import org.springframework.http.ResponseEntity;
+//import org.springframework.web.bind.annotation.*;
+//import org.springframework.web.multipart.MultipartFile;
+//
+//import java.io.IOException;
+//import java.io.InputStream;
+//import java.util.Arrays;
+//import java.util.HashMap;
+//import java.util.Map;
+//
+//@RestController
+//@RequestMapping("/api")
+//public class PdfController {
+//
+//    @Autowired
+//    private  PdfService pdfService;
+//    public PdfController(PdfService pdfService) {
+//        this.pdfService = pdfService;
+//    }
+//    @PostMapping(value = "/parse-pdf", consumes = "multipart/form-data")
+//
+//    public ResponseEntity<Map<String, String>> parsePdf(@RequestParam("file") MultipartFile file) {
+//        try {
+//            String extractedText = PdfParserUtil.extractText(file);
+//            Map<String, String> extractedData = pdfService.extractDetailsFromText(extractedText);
+//            return ResponseEntity.ok(extractedData);
+//        } catch (IOException e) {
+//            return ResponseEntity.status(500).body(Map.of("error", "Failed to process PDF"));
+//        }
+//    }
 
 
 
@@ -232,4 +272,4 @@ public class PdfController {
 
 
 
-}
+
