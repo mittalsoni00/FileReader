@@ -20,6 +20,17 @@ public class PdfController {
         this.pdfService = pdfService;
     }
 
+
+
+
+        @GetMapping("/healthz")
+        public String healthCheck() {
+            return "ok";
+        }
+        //later done
+
+
+
     @PostMapping("/parse-pdf")
     public ResponseEntity<Map<String, String>> parsePdf(@RequestParam("file") MultipartFile file) {
         try {
