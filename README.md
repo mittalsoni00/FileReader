@@ -170,4 +170,4 @@ You’ll receive a JSON containing Name, Email, and balances extracted using Ope
 - Health Check path: `/api/parse-pdf`
 
 
-
+🚀 **Boss, you made it happen — from idea to a fully deployed AI-powered PDF reader! Absolute 🔥. Proud moment! 🎯**
