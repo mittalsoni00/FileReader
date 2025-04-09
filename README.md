@@ -1,17 +1,25 @@
 # JAVA PdfReader API using LLM interaction
+A Spring Boot application that allows users to upload a **CASA bank statement PDF** and receive extracted details such as **Name**, **Email**, **Opening Balance**, and **Closing Balance** using **OpenAI GPT-4o** model.
+🔗 **Live Hosted API**: [https://pdfreader-fped.onrender.com/api/parse-pdf](https://pdfreader-fped.onrender.com/api/parse-pdf)
 
+---
 ## 📌 Switch to Master Branch  
 **Note:** Please switch to the `master` branch to access all the documentation and source files.  
 
-## 📂 Project Structure  
+## 📂 Project Structure
 
-### 🔹 Important Files  
-The main source files of this project are located in the source folder and include:  
-- `pdfController.java` – Handles API requests.  
-- `pdfService.java` – Implements business logic for PDF text extraction.  
-- `pdfParserUtil.java` – Utility class for parsing PDFs.  
-- `application.properties` – Configuration settings.
-  the other files are also related to our API project: required dependencies, properties, libraries, etc. are relavant.
+### 🔹 Key Files
+
+| File | Description |
+|------|-------------|
+| `PdfController.java` | Main controller that handles file upload and calls service to process PDF |
+| `PdfService.java` | Extracts text from the PDF and uses OpenAI API for intelligent data parsing |
+| `OpenAiService.java` | Integrates with OpenAI GPT-4o via REST call using Spring's `RestTemplate` |
+| `application.properties` | Stores server config and API key (linked via environment variable for security) |
+| `Dockerfile` | Dockerized for public deployment on Render |
+| `ChatController.java` | [Debug Endpoint] Allows sending prompt manually to OpenAI via JSON |
+| `ChatPromptDTO.java` | DTO for accepting request body in JSON format |
+| `PdfParserUtil.java` | Optional utility class to aid in raw PDF parsing |
 
 API can be accessed via Postman or curl command.(I have used Postman{instructions below👇})
 
@@ -24,72 +32,142 @@ The following files are not crucial to the core functionality:
 ## 🧪 PdfReader.java (Testing Purpose)  
 The `PdfReader.java` file is a **testing utility** that demonstrates how text extraction is performed from a PDF. It directly uses the **Apache PDFBox API** to extract text from any PDF file.  
 
+---
 
+## 🛠️ Tech Stack
 
-## 🚀 Getting Started  
+- Java 17
+- Spring Boot
+- Apache PDFBox
+- OpenAI GPT-4o (via REST API)
+- Maven
+- Docker (for deployment)
+- Render (hosting platform)
+- Postman / curl for testing
 
-### **1️⃣ Clone the Repository**  
+---
+## 💡 Features
+
+- 🔍 Intelligent extraction using **OpenAI GPT-4o** API
+- 📄 Accepts **PDF file** as multipart input
+- 🧠 Analyzes content with **LLM prompt** to extract:
+  - Name
+  - Email
+  - Opening Balance
+  - Closing Balance
+- 📬 JSON formatted output
+- 🧪 Separate test/debug endpoint to interact with OpenAI
+- 🌐 **Deployed publicly** using Docker and Render
+
+---
+
+## 🚀 Getting Started (Local Setup)
+
+### 1️⃣ Clone the Repository
+
 ```bash
 git clone https://github.com/mittalsoni00/FileReader.git
-cd <your-project-folder>
+cd FileReader
 git checkout master
 ```
 
-### **2️⃣ Set Up the Project**  
-Ensure you have **Java 8+** and **Maven** installed. Then, initialize the Spring Boot project:  
+### 2️⃣ Add Your OpenAI API Key
+
+Use an environment variable for security:
+```bash
+export OPENAI_API_KEY=your_secret_key_here
+```
+
+Or add it in `application.properties` (only for testing, not recommended for prod):
+```properties
+OPENAI_API_KEY=${OPENAI_API_KEY}
+```
+
+### 3️⃣ Build and Run
+
 ```bash
 mvn clean install
+java -jar target/Api_Reader_New-0.0.1-SNAPSHOT.jar
 ```
 
-### **3️⃣ Run the Application**  
-Start the Spring Boot application:  
-```bash
-mvn spring-boot:run
-```
-OR  
-```bash
-java -jar target/<your-jar-file>.jar
-```
+---
 
+## 🧪 Debug Endpoint (Optional)
 
-#### ➤ **Example Curl Command**   
-```bash
-curl -X POST -F "file=@sample.pdf" http://localhost:8080/api/parse-pdf
+To test prompt-only flow (without PDF), hit:
+
+```
+POST /api/chat
+Body (JSON):
+{
+  "prompt": "Tell me a joke about Java developers"
+}
 ```
 
-### 🚀 Using Postman to Test the API  
+This will return a direct OpenAI response.
 
-#### **Step 1: Open Postman**  
-Make sure you have **Postman** installed. If not, download it from [here](https://www.postman.com/downloads/).  
+---
 
-#### **Step 2: Create a New Request**  
-1. Open **Postman** and click on **"New Request"**.  
-2. Select **POST** as the request type.  
-3. Enter the API endpoint:  
+
+
+## 📬 API Documentation
+
+### ✅ Endpoint for PDF Parsing
+
+```
+POST /api/parse-pdf
+```
+
+### Request Type
+`multipart/form-data`
+
+### Form Key:
+| Key | Value |
+|-----|-------|
+| `file` | [Select your PDF file] |
+
+### 🔁 Response (Success)
+
+```json
+{
+  "response": "Here are the extracted details from the bank statement:\n\n- Name: John Doe\n- Email: johndoe@example.com\n- Opening Balance: $5,000\n- Closing Balance: $6,500"
+}
+```
+
+---
+
+## 📬 Testing via Postman
+
+### 📌 Steps
+
+1. Open Postman → **New Request**
+2. Choose **POST** → Enter URL:
    ```
-   http://localhost:8080/api/parse-pdf
+   https://pdfreader-fped.onrender.com/api/parse-pdf
    ```
+3. Go to **Body** tab → Select `form-data`
+4. Add a key named `file` → Upload PDF file
+5. Click **Send**
 
-#### **Step 3: Set Headers**  (very important🌟) 
-When you check the form-data Postman will automatically set the content-type to multipart/form-data (you don't need to manually set that) 
-I am just giving a quick-check if you encounter Error 415 "Unmatched file" please ensure Content-Type is automatically set to multipart/form-data 
-Highlighting this point because had a lot of problems with this error(hope you don't get it) happy coding^.^
-Go to the **Headers** tab and add:  
-| Key             | Value                 |  
-|----------------|-----------------------|  
-| Content-Type   | multipart/form-data    |  
+### ✅ Response
+You’ll receive a JSON containing Name, Email, and balances extracted using OpenAI.
 
-#### **Step 4: Upload a PDF File**  
-1. Go to the **Body** tab.  
-2. Select **form-data**.  
-3. Add a new key named `"file"`.  
-4. Click **"Select File"** and upload your PDF.  
+🟢 Make sure `Content-Type` is set to `multipart/form-data`. Postman sets this automatically if `form-data` is chosen.
 
-#### **Step 5: Send the Request**  
-Click on **"Send"** and wait for the response.  
+---
 
-#### **Step 6: View Response**  
-- If successful, the response will contain the extracted text from the PDF.  
-- If there's an error, check the console logs for debugging.  
+## 🐳 Deployment Notes (on Render)
+
+- Dockerized Spring Boot app using:
+  ```dockerfile
+  FROM openjdk:17
+  WORKDIR /app
+  COPY target/Api_Reader_New-0.0.1-SNAPSHOT.jar app.jar
+  ENTRYPOINT ["java", "-jar", "app.jar"]
+  ```
+- Pushed to GitHub repo: [https://github.com/mittalsoni00/FileReader](https://github.com/mittalsoni00/FileReader)
+- Environment variable `OPENAI_API_KEY` added via Render dashboard
+- Health Check path: `/api/parse-pdf`
+
 
 
